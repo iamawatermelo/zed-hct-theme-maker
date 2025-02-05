@@ -1,0 +1,149 @@
+// Material theme example
+version 1
+name "zed-hct-theme-maker material demo"
+author "github.com/iamawatermelo"
+
+token "hc-primary" h=0 c=90
+token "hc-secondary" h=0 c=80
+token "hc-tertiary" h=90 c=90
+token "hc-neutral" h=0 c=6
+token "hc-neutral-variant" h=0 c=10
+token "hc-error" h=0 c=100
+
+token "debug" h=0 c=100 t=50
+
+layer "light" {
+    // Primary colors
+    token "primary" apply="hc-primary" t=40
+    token "on-primary" apply="hc-primary" t=100
+    token "primary-container" apply="hc-primary" t=90
+    token "on-primary-container" apply="hc-primary" t=30
+    
+    // Secondary colors
+    token "secondary" apply="hc-secondary" t=40
+    token "on-secondary" apply="hc-secondary" t=100
+    token "secondary-container" apply="hc-secondary" t=90
+    token "on-secondary-container" apply="hc-secondary" t=30
+    
+    // Tertiary colors
+    token "tertiary" apply="hc-tertiary" t=40
+    token "on-tertiary" apply="hc-tertiary" t=100
+    token "tertiary-container" apply="hc-tertiary" t=90
+    token "on-tertiary-container" apply="hc-tertiary" t=30
+    
+    // Error colors
+    token "tertiary" apply="hc-tertiary" t=40
+    token "on-tertiary" apply="hc-tertiary" t=100
+    token "tertiary-container" apply="hc-tertiary" t=90
+    token "on-tertiary-container" apply="hc-tertiary" t=30
+    
+    // Surface colors
+    token "surface" apply="hc-neutral" t=98
+    token "on-surface" apply="hc-neutral" t=10
+    token "on-surface-light" apply="hc-neutral" t=5
+    token "surface-variant" apply="hc-neutral-variant" t=90
+    token "on-surface-variant" apply="hc-neutral-variant" t=30
+    
+    token "surface-container-highest" apply="hc-neutral" t=90
+    token "surface-container-high" apply="hc-neutral" t=92
+    token "surface-container" apply="hc-neutral" t=94
+    token "surface-container-low" apply="hc-neutral" t=96
+    token "surface-container-lowest" apply="hc-neutral" t=100
+    
+    // Terminal
+    token "term" c=100 t=30
+    token "term-bright" apply="term"
+    token "term-dim" apply="term"
+}
+
+layer "dark" {
+    // Primary colors
+    token "primary" apply="hc-primary" t=80
+    token "on-primary" apply="hc-primary" t=20
+    token "primary-container" apply="hc-primary" t=30
+    token "on-primary-container" apply="hc-primary" t=90
+    
+    // Secondary colors
+    token "secondary" apply="hc-secondary" t=80
+    token "on-secondary" apply="hc-secondary" t=20
+    token "secondary-container" apply="hc-secondary" t=30
+    token "on-secondary-container" apply="hc-secondary" t=90
+    
+    // Tertiary colors
+    token "tertiary" apply="hc-tertiary" t=80
+    token "on-tertiary" apply="hc-tertiary" t=20
+    token "tertiary-container" apply="hc-tertiary" t=30
+    token "on-tertiary-container" apply="hc-tertiary" t=90
+    
+    // Error colors
+    token "error" apply="hc-error" t=80
+    token "on-error" apply="hc-error" t=20
+    token "error-container" apply="hc-error" t=30
+    token "on-error-container" apply="hc-error" t=90
+    
+    // Surface colors
+    token "surface" apply="hc-neutral" t=6
+    token "on-surface" apply="hc-neutral" t=90
+    token "on-surface-light" apply="hc-neutral" t=95
+    token "surface-variant" apply="hc-neutral-variant" t=30
+    token "on-surface-variant" apply="hc-neutral-variant" t=80
+    
+    token "surface-container-highest" apply="hc-neutral" t=22
+    token "surface-container-high" apply="hc-neutral" t=17
+    token "surface-container" apply="hc-neutral" t=12
+    token "surface-container-low" apply="hc-neutral" t=10
+    token "surface-container-lowest" apply="hc-neutral" t=4
+    
+    // Terminal
+    token "term" c=100 t=60
+    token "term-bright" apply="term"
+    token "term-dim" apply="term"
+}
+
+variant "Material Light" {
+    appearance "light"
+    layer "light"
+    
+    style {
+        editor.foreground apply="on-surface"
+        editor.background apply="surface"
+        editor.active_line.background apply="surface-variant"
+        editor.active_line_number apply="on-surface-variant"
+        editor.line_number apply="on-surface"
+        editor.gutter.background apply="surface-container-low"
+        editor.subheader.background apply="surface-container-lowest"
+        editor.highlighted_line.background apply="surface-variant"
+        
+        // Zed seems to ignore dim styles,
+        // so I haven't implemented most of them.
+        terminal.background apply="surface"
+        terminal.foreground apply="on-surface"
+        terminal.bright_foreground apply="on-surface-variant"
+        terminal.ansi.black apply="hc-neutral" t=10
+        terminal.ansi.black_bright apply="hc-neutral" t=5
+        terminal.ansi.black_dim apply="hc-neutral" t=10
+        terminal.ansi.red apply="term" h=20
+        terminal.ansi.red_bright apply="term-bright" h=20
+        terminal.ansi.red_dim apply="term-dim" h=20
+        terminal.ansi.green apply="term" h=150
+        terminal.ansi.green_bright apply="term-bright" h=150
+        terminal.ansi.green_dim apply="term-dim" h=150
+        terminal.ansi.yellow apply="term" h=90
+        terminal.ansi.yellow_bright apply="term-bright" h=90
+        terminal.ansi.yellow_dim apply="term-dim" h=90
+        terminal.ansi.blue apply="term" h=230
+        terminal.ansi.blue_bright apply="term-bright" h=230
+        terminal.ansi.blue_dim apply="term-dim" h=230
+        terminal.ansi.magenta apply="term" h=320
+        terminal.ansi.magenta_bright apply="term-bright" h=320
+        terminal.ansi.magenta_dim apply="term-dim" h=320
+        terminal.ansi.cyan apply="term" h=200
+        terminal.ansi.cyan_bright apply="term-bright" h=200
+        terminal.ansi.cyan_dim apply="term-dim" h=200
+        terminal.ansi.white apply="hc-neutral" t=90
+        terminal.ansi.white_bright apply="hc-neutral" t=95
+        terminal.ansi.white_dim apply="hc-neutral" t=90
+        
+        
+    }
+}

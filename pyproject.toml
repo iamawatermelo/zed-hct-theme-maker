@@ -1,0 +1,12 @@
+[project]
+name = "zed-hct-theme-maker"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "coloraide>=4.2.1",
+    "cuddly-dicts>=1.0.1",
+    "pydantic>=2.10.6",
+    "typer>=0.15.1",
+]
