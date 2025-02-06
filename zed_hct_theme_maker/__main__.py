@@ -1,8 +1,9 @@
 from pathlib import Path
+from typing import Any
 import typer
 from cuddly_dicts import kdl_source_to_dict
 
-from zed_hct_theme_maker.models import Color, Theme, Variant
+from zed_hct_theme_maker.models import Color, Highlight, PlayerColor, Theme, Variant
 
 from coloraide import Color as Base
 from coloraide.spaces.hct import HCT
@@ -29,55 +30,140 @@ def recurse_resolve_colors(color: Color, env: dict[str, Color], what: str, resol
     if color.apply is None:
         return color
     
-    apply_from = env.get(color.apply)
+    h, c, t = None, None, None
     
-    if apply_from is None:
-        raise Exception(f"{what} references {color.apply}, which does not exist")
+    for apply in color.apply.split(" "):
+        if env.get(apply) is None:
+            raise Exception(f"{what} references {color.apply}, which does not exist")
+        
+        print(f"{what} -> {apply}")
+        
+        resolved = recurse_resolve_colors(
+            env[apply],
+            env,
+            apply,
+            [what, *resolve_chain]
+        )
+        
+        h = h if resolved.h is None else resolved.h
+        c = c if resolved.c is None else resolved.c
+        t = t if resolved.t is None else resolved.t
     
-    apply_from = recurse_resolve_colors(
-        apply_from,
-        env,
-        color.apply,
-        [what, *resolve_chain]
-    )
+    h = h if color.h is None else color.h
+    c = c if color.c is None else color.c
+    t = t if color.t is None else color.t
     
-    color.h = apply_from.h if color.h is None else color.h
-    color.c = apply_from.c if color.c is None else color.c
-    color.t = apply_from.t if color.t is None else color.t
+    color.h, color.c, color.t = h, c, t
     
     return color
 
-def compile_variant(theme: Theme, variant: Variant, name: str):
-    if isinstance(variant.layer, str):
-        env = {
-            **theme.token,
-            **theme.layer[variant.layer].token
+def color_to_hex(color: Color | None, env: dict[str, Color], name: str) -> str | None:
+    if color is None:
+        return None
+    
+    resolved = recurse_resolve_colors(
+        color,
+        env,
+        name,
+        list()
+    )
+    
+    return HCTColor('hct', (resolved.h, resolved.c, resolved.t), alpha=resolved.a) \
+        .convert('srgb') \
+        .to_string(hex=True)
+
+def compile_highlight(highlight: Highlight | Color, env: dict[str, Color], name: str) -> dict[str, Any]:
+    if isinstance(highlight, Color):
+        return {
+            "background_color": None,
+            "color": color_to_hex(highlight, env, name),
+            "font_style": None,
+            "font_weight": None
         }
     else:
-        env = theme.token.copy()
-        
-        for theme in variant.layer:
-            env.update(theme.layer[variant.layer])
+        return {
+            "background_color": color_to_hex(highlight.color, env, name),
+            "color": color_to_hex(highlight.color, env, name),
+            "font_style": highlight.font_style,
+            "font_weight": highlight.font_weight
+        }
+
+def compile_variant(theme: Theme, variant: Variant, name: str):
+    accents = variant.accent
+    if isinstance(accents, Color):
+        accents = [accents]
     
+    players = variant.player
+    if isinstance(players, PlayerColor):
+        players = [players]
+    
+    layers = variant.layer
+    if isinstance(layers, str):
+        layers = [layers]
+
+    env = theme.token.copy()
     out = dict()
+    syntax = dict()
+    for layer in variant.layer:
+        env.update(theme.layer[layer].token)
+        out.update(theme.layer[layer].style)
+        syntax.update(theme.layer[layer].syntax)
+        accents.extend(theme.layer[layer].accent)
+        players.extend(theme.layer[layer].player)
     
-    for key, color in variant.style.items():
-        out[key] = recurse_resolve_colors(
+    out.update(variant.style)
+    syntax.update(variant.syntax)
+    
+    resolved_out = dict()
+    
+    for key, color in out.items():
+        resolved_out[key] = color_to_hex(
             color,
             env,
-            key,
-            list()
+            key
         )
     
-    out_colors = {
-        key: HCTColor('hct', (color.h, color.c, color.t)).convert('srgb').to_string(hex=True)
-        for key, color in out.items()
+    resolved_out["accents"] = [
+        color_to_hex(
+            color,
+            env,
+            "accent"
+        )
+        for color in accents
+    ]
+    
+    resolved_out["players"] = [
+        {
+            "background": color_to_hex(
+                player.background,
+                env,
+                "player background"
+            ),
+            "cursor": color_to_hex(
+                player.cursor,
+                env,
+                "color background"
+            ),
+            "selection": color_to_hex(
+                player.selection,
+                env,
+                "selection background"
+            ),
+        } for player in players
+    ]
+    
+    resolved_out["syntax"] = {
+        key: compile_highlight(
+            highlight,
+            env,
+            key
+        ) for key, highlight in syntax.items()
     }
     
     return {
         "name": name,
         "appearance": variant.appearance,
-        "style": out_colors
+        "style": resolved_out
     }
 
 @cli.command()
@@ -121,13 +207,13 @@ def experimental_patch_settings(
     
     overrides = variant["style"]
     override_json = dumps(overrides, indent=2)
-    override_json = indent(override_json, '  ')
+    override_json = indent(override_json, '  ').lstrip()
     
     with open(settings_path, "r+") as fd:
         data = fd.read()
         fd.seek(0)
         r = re.compile(
-            r'"experimental\.theme_overrides":\s+({[^}]*})',
+            r'"experimental\.theme_overrides":\s+({(\s+"syntax":\s+{(\s+"[\w.]+":\s+{[^}]*},?)*[^}]*}|[^}])*})',
             re.MULTILINE | re.VERBOSE
         )
         match = r.search(data)
