@@ -22,21 +22,14 @@ def recurse_resolve_colors(color: Color, env: dict[str, Color], what: str, resol
     if what in resolve_chain:
         raise Exception(f"{what} references {', which references '.join(resolve_chain)}")
     
-    if color._resolved:
-        return color
-    
-    color._resolved = True
-    
     if color.apply is None:
         return color
     
-    h, c, t = None, None, None
+    h, c, t, a = None, None, None, None
     
     for apply in color.apply.split(" "):
         if env.get(apply) is None:
             raise Exception(f"{what} references {color.apply}, which does not exist")
-        
-        print(f"{what} -> {apply}")
         
         resolved = recurse_resolve_colors(
             env[apply],
@@ -48,14 +41,19 @@ def recurse_resolve_colors(color: Color, env: dict[str, Color], what: str, resol
         h = h if resolved.h is None else resolved.h
         c = c if resolved.c is None else resolved.c
         t = t if resolved.t is None else resolved.t
+        a = a if resolved.a is None else resolved.a
     
     h = h if color.h is None else color.h
     c = c if color.c is None else color.c
     t = t if color.t is None else color.t
+    a = t if color.a is None else color.a
     
-    color.h, color.c, color.t = h, c, t
-    
-    return color
+    return Color(
+        h=h,
+        c=c,
+        t=t,
+        a=a
+    )
 
 def color_to_hex(color: Color | None, env: dict[str, Color], name: str) -> str | None:
     if color is None:
@@ -68,7 +66,7 @@ def color_to_hex(color: Color | None, env: dict[str, Color], name: str) -> str |
         list()
     )
     
-    return HCTColor('hct', (resolved.h, resolved.c, resolved.t), alpha=resolved.a) \
+    return HCTColor('hct', (resolved.h, resolved.c, resolved.t), alpha=resolved.a or 1) \
         .convert('srgb') \
         .to_string(hex=True)
 
@@ -108,8 +106,16 @@ def compile_variant(theme: Theme, variant: Variant, name: str):
         env.update(theme.layer[layer].token)
         out.update(theme.layer[layer].style)
         syntax.update(theme.layer[layer].syntax)
-        accents.extend(theme.layer[layer].accent)
-        players.extend(theme.layer[layer].player)
+        
+        accent = theme.layer[layer].accent
+        if isinstance(accent, Color):
+            accent = [accent]
+        accents.extend(accent)
+        
+        player = theme.layer[layer].player
+        if isinstance(player, PlayerColor):
+            player = [player]
+        players.extend(player)
     
     out.update(variant.style)
     syntax.update(variant.syntax)
@@ -213,7 +219,7 @@ def experimental_patch_settings(
         data = fd.read()
         fd.seek(0)
         r = re.compile(
-            r'"experimental\.theme_overrides":\s+({(\s+"syntax":\s+{(\s+"[\w.]+":\s+{[^}]*},?)*[^}]*}|[^}])*})',
+            r'"experimental\.theme_overrides":\s+({(\s+"\w+":\s+{(\s+"[\w.]+":\s+{[^}]*},?)*[^}]*}|\s+"\w+":\s+\[[^\]]+\]|[^}])*})',
             re.MULTILINE | re.VERBOSE
         )
         match = r.search(data)

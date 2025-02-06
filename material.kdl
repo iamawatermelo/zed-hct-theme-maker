@@ -4,32 +4,78 @@ version 1
 name "zed-hct-theme-maker material demo"
 author "github.com/iamawatermelo"
 
-// Change the "seed" color here, or the primary color of the entire
-// theme.
-token "seed" h=0
+token "color-saturation" c=100
 
-token "hc-primary" apply="seed" c=90
-token "hc-secondary" apply="seed" c=80
-
-// Change c (the chroma) to change how "saturated" panel elements are
-token "hc-neutral" apply="seed" c=6
-token "hc-neutral-variant" apply="seed" c=10
-
-// Change the tertiary color to a complementary color you like.
-token "hc-tertiary" h=90 c=90
-
-token "hc-error" h=150 c=100
-
-token "debug" h=0 c=100 t=50
-
-token "red" h=20 c=50
-token "green" h=150 c=50
-token "yellow" h=90 c=50
-token "blue" h=230 c=50
-token "magenta" h=320 c=50
-token "cyan" h=200 c=50
+token "red" apply="color-saturation" h=20
+token "green" apply="color-saturation" h=150
+token "yellow" apply="color-saturation" h=90 
+token "blue" apply="color-saturation" h=230
+token "magenta" apply="color-saturation" h=320
+token "cyan" apply="color-saturation" h=200
 
 token "transparent" h=0 c=0 t=0 a=0.0
+
+layer "custom" {
+    // Change the "seed" color here, or the primary color of the entire
+    // theme.
+    token "seed" h=0
+    
+    token "hc-primary" apply="seed" c=90
+    token "hc-secondary" apply="seed" c=80
+    
+    // Change c (the chroma) to change how "saturated" panel elements are
+    token "hc-neutral" apply="seed" c=6
+    token "hc-neutral-variant" apply="seed" c=10
+    
+    // Change the tertiary color to a complementary color you like.
+    token "hc-tertiary" h=90 c=90
+    
+    token "hc-error" h=150 c=100
+}
+
+layer "default-derived" {
+    token "hc-primary" apply="seed" c=90
+    token "hc-secondary" apply="seed" c=80
+    
+    // Change c (the chroma) to change how "saturated" panel elements are
+    token "hc-neutral" apply="seed" c=6
+    token "hc-neutral-variant" apply="seed" c=10
+    
+    // Change the tertiary color to a complementary color you like.
+    token "hc-tertiary" apply="seed-tertiary" c=90
+    
+    token "hc-error" h=150 c=100
+}
+
+layer "red" {
+    token "seed" apply="red"
+    token "seed-tertiary" apply="yellow"
+}
+
+layer "yellow" {
+    token "seed" apply="yellow"
+    token "seed-tertiary" apply="red"
+}
+
+layer "green" {
+    token "seed" apply="green"
+    token "seed-tertiary" apply="blue"
+}
+
+layer "blue" {
+    token "seed" apply="blue"
+    token "seed-tertiary" apply="green"
+}
+
+layer "magenta" {
+    token "seed" apply="magenta"
+    token "seed-tertiary" apply="cyan"
+}
+
+layer "cyan" {
+    token "seed" apply="cyan"
+    token "seed-tertiary" apply="magenta"
+}
 
 layer "light" {
     // Primary colors
@@ -87,9 +133,11 @@ layer "light" {
 layer "dark" {
     // Primary colors
     token "primary" apply="hc-primary" t=20
-    token "on-primary" apply="hc-primary" t=80
-    token "on-primary-n10" apply="hc-primary" t=70
-    token "on-primary-n20" apply="hc-primary" t=60
+    token "primary-p10" apply="hc-primary" t=30
+    token "primary-p20" apply="hc-primary" t=40
+    token "on-primary" apply="hc-primary" t=95
+    token "on-primary-n10" apply="hc-primary" t=90
+    token "on-primary-n20" apply="hc-primary" t=85
     token "primary-container" apply="hc-primary" t=30
     token "on-primary-container" apply="hc-primary" t=90
     
@@ -113,7 +161,12 @@ layer "dark" {
     
     // Surface colors
     token "surface" apply="hc-neutral" t=6
-    token "on-surface" apply="hc-neutral" t=90
+    token "surface-p10" apply="hc-neutral" t=16
+    token "surface-p20" apply="hc-neutral" t=26
+    token "on-surface" apply="hc-neutral" t=80
+    token "on-surface-n10" apply="hc-neutral" t=70
+    token "on-surface-n20" apply="hc-neutral" t=60
+    token "on-surface-dim" apply="hc-neutral" t=50
     token "on-surface-light" apply="hc-neutral" t=95
     token "surface-variant" apply="hc-neutral-variant" t=30
     token "on-surface-variant" apply="hc-neutral-variant" t=80
@@ -135,7 +188,9 @@ layer "theme" {
         // Border stuff
         border apply="surface-container-highest"
         border.disabled apply="on-surface" c=10
-        border.focused apply="on-surface" c=90
+        border.focused apply="on-surface"
+        border.selected apply="primary"
+        border.variant apply="primary"
         
         // Surface stuff
         elevated_surface.background apply="surface-container-low"
@@ -150,12 +205,14 @@ layer "theme" {
         title_bar.inactive_background apply="surface-p10"
         tab_bar.background apply="surface-container-low"
         status_bar.background apply="surface-container-low"
+        panel.focused_border apply="surface"
         
         // Elements
         element.background apply="primary"
         element.hover apply="primary-p10"
         element.active apply="primary"
         element.disabled apply="primary"
+        element.selected apply="primary"
         ghost_element.background apply="surface-container-high"
         ghost_element.hover apply="surface-container-highest"
         ghost_element.active apply="surface-container-high"
@@ -185,12 +242,16 @@ layer "theme" {
         // Editor stuff
         editor.foreground apply="on-surface"
         editor.background apply="surface"
-        editor.active_line.background apply="surface-variant"
-        editor.active_line_number apply="on-surface-variant"
-        editor.line_number apply="on-surface"
         editor.gutter.background apply="surface-container-low"
         editor.subheader.background apply="surface-container-lowest"
         editor.highlighted_line.background apply="surface-variant"
+        editor.active_line.background apply="surface-variant"
+        editor.active_line_number apply="on-surface-variant"
+        editor.line_number apply="on-surface-dim"
+        editor.wrap_guide apply="on-surface-dim" a=0.5
+        editor.document_highlight.read_background apply="surface green"
+        editor.document_highlight.write_background apply="surface"
+        search.match_background apply="primary yellow"
         
         // Scrollbar stuff
         scrollbar.thumb.background apply="surface-p20" a=0.7
@@ -206,35 +267,41 @@ layer "theme" {
         terminal.foreground apply="on-surface"
         terminal.bright_foreground apply="on-surface-variant"
         terminal.ansi.black apply="surface"
-        terminal.ansi.black_bright apply="surface-variant"
-        terminal.ansi.black_dim apply="surface"
+        terminal.ansi.bright_black apply="surface-variant"
+        terminal.ansi.dim_black apply="surface"
         terminal.ansi.white apply="on-surface"
-        terminal.ansi.white_bright apply="on-surface-variant"
-        terminal.ansi.white_dim apply="on-surface"
+        terminal.ansi.bright_white apply="on-surface-variant"
+        terminal.ansi.dim_white apply="on-surface"
         terminal.ansi.red apply="term red"
-        terminal.ansi.red_bright apply="term-bright red"
-        terminal.ansi.red_dim apply="term-dim red"
+        terminal.ansi.bright_red apply="term-bright red"
+        terminal.ansi.dim_red apply="term-dim red"
         terminal.ansi.green apply="term green"
-        terminal.ansi.green_bright apply="term-bright green"
-        terminal.ansi.green_dim apply="term-dim green"
+        terminal.ansi.bright_green apply="term-bright green"
+        terminal.ansi.dim_green apply="term-dim green"
         terminal.ansi.yellow apply="term yellow"
-        terminal.ansi.yellow_bright apply="term-bright yellow"
-        terminal.ansi.yellow_dim apply="term-dim yellow"
+        terminal.ansi.bright_yellow apply="term-bright yellow"
+        terminal.ansi.dim_yellow apply="term-dim yellow"
         terminal.ansi.blue apply="term blue"
-        terminal.ansi.blue_bright apply="term-bright blue"
-        terminal.ansi.blue_dim apply="term-dim blue"
+        terminal.ansi.bright_blue apply="term-bright blue"
+        terminal.ansi.dim_blue apply="term-dim blue"
         terminal.ansi.magenta apply="term magenta"
-        terminal.ansi.magenta_bright apply="term-bright magenta"
-        terminal.ansi.magenta_dim apply="term-dim magenta"
+        terminal.ansi.bright_magenta apply="term-bright magenta"
+        terminal.ansi.dim_magenta apply="term-dim magenta"
         terminal.ansi.cyan apply="term cyan"
-        terminal.ansi.cyan_bright apply="term-bright cyan"
-        terminal.ansi.cyan_dim apply="term-dim cyan"
+        terminal.ansi.bright_cyan apply="term-bright cyan"
+        terminal.ansi.dim_cyan apply="term-dim cyan"
         
         // Semantic colors
         conflict apply="on-primary-n20 yellow"
+        conflict.border apply="transparent"
         created apply="on-primary-n20 green"
+        created.border apply="transparent"
         deleted apply="on-primary-n20 red"
         error apply="on-primary-n20 red"
+        modified apply="on-primary-n20 yellow"
+        renamed apply="on-primary-n20 yellow"
+        hidden apply="on-surface-dim"
+        ignored apply="on-surface-dim"
     }
     
     syntax {
@@ -252,15 +319,15 @@ layer "theme" {
         string.regex apply="on-primary yellow"
         
         // Variables and functions
-        variable apply="on-surface-n20"
+        variable apply="on-surface"
         variant apply="on-primary"
-        attribute apply="on-primary-n20 magenta"
-        property apply="on-primary"
+        attribute apply="on-primary magenta"
+        property apply="on-primary-n20"
         constant apply="on-primary magenta"
         type apply="on-tertiary"
         function apply="on-surface"
         label apply="on-surface"
-        embedded apply="on-primary-n20"
+        embedded apply="on-primary"
         
         // Operator and punctuation
         punctuation apply="on-primary"
@@ -268,26 +335,117 @@ layer "theme" {
         punctuation.delimiter apply="on-primary"
         punctuation.list_marker apply="on-primary"
         punctuation.special apply="on-primary"
-        operator apply="on-primary-n20"
+        operator apply="on-surface"
         
         // Special stuff
-        keyword apply="on-primary"
+        keyword apply="on-primary-n20"
         variable.special apply="on-primary-n20"
-        primary apply="on-primary-n20"
+        primary apply="on-primary-n20"          
         preproc apply="on-primary-n20"
     }
     
-    /-accent apply="primary"
+    player {
+        cursor apply="primary"
+        background apply="on-primary"
+        selection apply="primary-container"
+    }
+    
+    accent apply="primary"
 }
 
-variant "Material Light" {
+variant "Material Light Red" {
     appearance "light"
+    layer "red"
+    layer "default-derived"
     layer "light"
     layer "theme"
 }
 
-variant "Material Dark" {
+variant "Material Dark Red" {
     appearance "dark"
+    layer "red"
+    layer "default-derived"
     layer "dark"
     layer "theme"
 }
+
+variant "Material Light Green" {
+    appearance "light"
+    layer "green"
+    layer "default-derived"
+    layer "light"
+    layer "theme"
+}
+
+variant "Material Dark Green" {
+    appearance "dark"
+    layer "green"
+    layer "default-derived"
+    layer "dark"
+    layer "theme"
+}
+
+variant "Material Light Yellow" {
+    appearance "light"
+    layer "yellow"
+    layer "default-derived"
+    layer "light"
+    layer "theme"
+}
+
+variant "Material Dark Yellow" {
+    appearance "dark"
+    layer "yellow"
+    layer "default-derived"
+    layer "dark"
+    layer "theme"
+}
+
+variant "Material Light Blue" {
+    appearance "light"
+    layer "blue"
+    layer "default-derived"
+    layer "light"
+    layer "theme"
+}
+
+variant "Material Dark Blue" {
+    appearance "dark"
+    layer "blue"
+    layer "default-derived"
+    layer "dark"
+    layer "theme"
+}
+
+variant "Material Light Magenta" {
+    appearance "light"
+    layer "magenta"
+    layer "default-derived"
+    layer "light"
+    layer "theme"
+}
+
+variant "Material Dark Magenta" {
+    appearance "dark"
+    layer "magenta"
+    layer "default-derived"
+    layer "dark"
+    layer "theme"
+}
+
+variant "Material Light Cyan" {
+    appearance "light"
+    layer "cyan"
+    layer "default-derived"
+    layer "light"
+    layer "theme"
+}
+
+variant "Material Dark Cyan" {
+    appearance "dark"
+    layer "cyan"
+    layer "default-derived"
+    layer "dark"
+    layer "theme"
+}
+

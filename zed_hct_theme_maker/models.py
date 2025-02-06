@@ -3,11 +3,10 @@ from pydantic import BaseModel
 
 
 class Color(BaseModel):
-    _resolved: bool = False
     h: Optional[int] = None
     c: Optional[int] = None
     t: Optional[int] = None
-    a: float = 1
+    a: Optional[float] = 1.0
     apply: Optional[str] = None
 
 
@@ -28,8 +27,8 @@ class Variant(BaseModel):
     appearance: str 
     layer: str | list[str]
     style: dict[str, Color] = dict()
-    accent: list[Color] = []
-    player: list[PlayerColor] = []
+    accent: Color | list[Color] = []
+    player: PlayerColor | list[PlayerColor] = []
     syntax: dict[str, Color | Highlight] = dict()
 
 
