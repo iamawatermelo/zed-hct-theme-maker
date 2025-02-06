@@ -3,14 +3,15 @@
 zed-hct-theme-maker is, surprisingly, a tool to make Zed themes with the
 HCT color space.
 
+![The example material.kdl](docs/anyide.png)
+*Pictured: Not Material Light Green opened on
+[wakapi-anyide](https://github.com/iamawatermelo/wakapi-anyide)*
+
 > ## **What's HCT?**  
 > HCT stands for **hue, chroma and tone.**
 > - Hue is which color it is.
 > - Chroma is how saturated it is.
 > - Tone is how light/dark it is.
-
-![The example material.kdl](docs/anyide.png)
-*Pictured: Not Material Light Green*
 
 ## Write your own themes
 First, [learn KDL](https://kdl.dev/). It'll take you, like, 5 minutes.
