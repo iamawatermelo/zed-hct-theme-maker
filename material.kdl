@@ -1,4 +1,4 @@
-// Material theme example.
+// Material-ish theme example.
 
 version 1
 name "zed-hct-theme-maker material demo"
@@ -11,7 +11,7 @@ token "green" apply="color-saturation" h=150
 token "yellow" apply="color-saturation" h=90 
 token "blue" apply="color-saturation" h=230
 token "magenta" apply="color-saturation" h=320
-token "cyan" apply="color-saturation" h=200
+token "cyan" apply="color-saturation" h=190
 
 token "transparent" h=0 c=0 t=0 a=0.0
 
@@ -34,46 +34,52 @@ layer "custom" {
 }
 
 layer "default-derived" {
-    token "hc-primary" apply="seed" c=90
-    token "hc-secondary" apply="seed" c=80
+    token "hc-primary" apply="seed" c=80
+    token "hc-secondary" apply="seed-secondary" c=70
     
     // Change c (the chroma) to change how "saturated" panel elements are
     token "hc-neutral" apply="seed" c=6
-    token "hc-neutral-variant" apply="seed" c=10
+    token "hc-neutral-variant" apply="seed-secondary" c=10
     
     // Change the tertiary color to a complementary color you like.
-    token "hc-tertiary" apply="seed-tertiary" c=90
+    token "hc-tertiary" apply="seed-tertiary" c=80
     
     token "hc-error" h=150 c=100
 }
 
 layer "red" {
     token "seed" apply="red"
+    token "seed-secondary" apply="seed"
     token "seed-tertiary" apply="yellow"
 }
 
 layer "yellow" {
     token "seed" apply="yellow"
+    token "seed-secondary" apply="seed"
     token "seed-tertiary" apply="red"
 }
 
 layer "green" {
     token "seed" apply="green"
-    token "seed-tertiary" apply="blue"
+    token "seed-secondary" apply="seed"
+    token "seed-tertiary" apply="red"
 }
 
 layer "blue" {
     token "seed" apply="blue"
+    token "seed-secondary" apply="seed"
     token "seed-tertiary" apply="green"
 }
 
 layer "magenta" {
     token "seed" apply="magenta"
+    token "seed-secondary" apply="seed"
     token "seed-tertiary" apply="cyan"
 }
 
 layer "cyan" {
     token "seed" apply="cyan"
+    token "seed-secondary" apply="seed"
     token "seed-tertiary" apply="magenta"
 }
 
@@ -91,20 +97,24 @@ layer "light" {
     // Secondary colors
     token "secondary" apply="hc-secondary" t=90
     token "on-secondary" apply="hc-secondary" t=40
+    token "on-secondary-n10" apply="hc-secondary" t=50
+    token "on-secondary-n20" apply="hc-secondary" t=60
     token "secondary-container" apply="hc-secondary" t=90
     token "on-secondary-container" apply="hc-secondary" t=30
     
     // Tertiary colors
     token "tertiary" apply="hc-tertiary" t=90
     token "on-tertiary" apply="hc-tertiary" t=40
+    token "on-tertiary-n10" apply="hc-tertiary" t=50
+    token "on-tertiary-n20" apply="hc-tertiary" t=60
     token "tertiary-container" apply="hc-tertiary" t=90
     token "on-tertiary-container" apply="hc-tertiary" t=30
     
     // Error colors
-    token "tertiary" apply="hc-tertiary" t=90
-    token "on-tertiary" apply="hc-tertiary" t=40
-    token "tertiary-container" apply="hc-tertiary" t=90
-    token "on-tertiary-container" apply="hc-tertiary" t=30
+    token "error" apply="red" t=90
+    token "on-error" apply="red" t=40
+    token "error-container" apply="red" t=90
+    token "on-error-container" apply="red" t=30
     
     // Surface colors
     token "surface" apply="hc-neutral" t=98
@@ -124,6 +134,12 @@ layer "light" {
     token "surface-container-low" apply="hc-neutral" t=96
     token "surface-container-lowest" apply="hc-neutral" t=100
     
+    token "surface-variant-container-highest" apply="hc-neutral-variant" t=90
+    token "surface-variant-container-high" apply="hc-neutral-variant" t=92
+    token "surface-variant-container" apply="hc-neutral-variant" t=94
+    token "surface-variant-container-low" apply="hc-neutral-variant" t=96
+    token "surface-variant-container-lowest" apply="hc-neutral-variant" t=100
+    
     // Terminal
     token "term" t=50 c=110
     token "term-bright" apply="term"
@@ -137,27 +153,31 @@ layer "dark" {
     token "primary-p20" apply="hc-primary" t=40
     token "on-primary" apply="hc-primary" t=95
     token "on-primary-n10" apply="hc-primary" t=90
-    token "on-primary-n20" apply="hc-primary" t=85
+    token "on-primary-n20" apply="hc-primary" t=80
     token "primary-container" apply="hc-primary" t=30
     token "on-primary-container" apply="hc-primary" t=90
     
     // Secondary colors
     token "secondary" apply="hc-secondary" t=20
-    token "on-secondary" apply="hc-secondary" t=80
+    token "on-secondary" apply="hc-secondary" t=95
+    token "on-secondary-n10" apply="hc-secondary" t=90
+    token "on-secondary-n20" apply="hc-secondary" t=80
     token "secondary-container" apply="hc-secondary" t=30
     token "on-secondary-container" apply="hc-secondary" t=90
     
     // Tertiary colors
     token "tertiary" apply="hc-tertiary" t=20
     token "on-tertiary" apply="hc-tertiary" t=80
+    token "on-tertiary-n10" apply="hc-tertiary" t=70
+    token "on-tertiary-n20" apply="hc-tertiary" t=60
     token "tertiary-container" apply="hc-tertiary" t=30
     token "on-tertiary-container" apply="hc-tertiary" t=90
     
     // Error colors
-    token "error" apply="hc-error" t=20
-    token "on-error" apply="hc-error" t=80
-    token "error-container" apply="hc-error" t=30
-    token "on-error-container" apply="hc-error" t=90
+    token "error" apply="red" t=20
+    token "on-error" apply="red" t=80
+    token "error-container" apply="red" t=30
+    token "on-error-container" apply="red" t=90
     
     // Surface colors
     token "surface" apply="hc-neutral" t=6
@@ -177,6 +197,12 @@ layer "dark" {
     token "surface-container-low" apply="hc-neutral" t=10
     token "surface-container-lowest" apply="hc-neutral" t=4
     
+    token "surface-variant-container-highest" apply="hc-neutral-variant" t=22
+    token "surface-variant-container-high" apply="hc-neutral-variant" t=17
+    token "surface-variant-container" apply="hc-neutral-variant" t=12
+    token "surface-variant-container-low" apply="hc-neutral-variant" t=10
+    token "surface-variant-container-lowest" apply="hc-neutral-variant" t=4
+    
     // Terminal
     token "term" t=70 c=110
     token "term-bright" apply="term"
@@ -186,33 +212,33 @@ layer "dark" {
 layer "theme" {
     style {
         // Border stuff
-        border apply="surface-container-highest"
+        border apply="surface-variant-container-highest"
         border.disabled apply="on-surface" c=10
         border.focused apply="on-surface"
         border.selected apply="primary"
-        border.variant apply="primary"
+        border.variant apply="on-secondary-n20"
         
         // Surface stuff
-        elevated_surface.background apply="surface-container-low"
-        surface.background apply="surface-container"
+        elevated_surface.background apply="surface-variant-container-low"
+        surface.background apply="surface-variant-container"
         background apply="surface"
         
         // Navigation
-        tab.active_background apply="surface-container-low"
-        tab.inactive_background apply="surface-container-highest"
-        toolbar.background apply="surface-container-low"
+        tab.active_background apply="surface-variant-container-low"
+        tab.inactive_background apply="surface-variant-container-highest"
+        toolbar.background apply="surface-variant-container-low"
         title_bar.background apply="surface"
         title_bar.inactive_background apply="surface-p10"
-        tab_bar.background apply="surface-container-low"
+        tab_bar.background apply="surface-variant-container-low"
         status_bar.background apply="surface-container-low"
-        panel.focused_border apply="surface"
+        panel.focused_border apply="surface-variant"
         
         // Elements
-        element.background apply="primary"
+        element.background apply="surface-container"
         element.hover apply="primary-p10"
         element.active apply="primary"
-        element.disabled apply="primary"
-        element.selected apply="primary"
+        element.disabled apply="surface-container-highest"
+        element.selected apply="surface-variant"
         ghost_element.background apply="surface-container-high"
         ghost_element.hover apply="surface-container-highest"
         ghost_element.active apply="surface-container-high"
@@ -223,7 +249,7 @@ layer "theme" {
         text.muted apply="on-surface-n20"
         text.placeholder apply="on-surface-n20"
         text.disabled apply="on-surface-n20" a=0.7
-        text.accent apply="primary"
+        text.accent apply="on-primary"
         
         // Icon
         icon apply="on-surface"
@@ -233,7 +259,7 @@ layer "theme" {
         icon.accent apply="primary"
         
         // Panel stuff
-        panel.background apply="surface-container"
+        panel.background apply="surface-variant-container"
         panel.indent_guide apply="surface-p10"
         panel.indent_guide_active apply="surface-p20"
         panel.indent_guide_hover apply="on-surface-n20"
@@ -261,8 +287,7 @@ layer "theme" {
         scrollbar.track.border apply="surface-container" a=0.8
         
         // Terminal stuff
-        // Zed seems to ignore dim styles,
-        // so I haven't implemented most of them.
+        // Zed seems to ignore dim styles.
         terminal.background apply="surface"
         terminal.foreground apply="on-surface"
         terminal.bright_foreground apply="on-surface-variant"
@@ -324,7 +349,7 @@ layer "theme" {
         attribute apply="on-primary magenta"
         property apply="on-primary-n20"
         constant apply="on-primary magenta"
-        type apply="on-tertiary"
+        type apply="on-tertiary-n10"
         function apply="on-surface"
         label apply="on-surface"
         embedded apply="on-primary"
@@ -353,7 +378,7 @@ layer "theme" {
     accent apply="primary"
 }
 
-variant "Material Light Red" {
+variant "Not Material Light Red" {
     appearance "light"
     layer "red"
     layer "default-derived"
@@ -361,7 +386,7 @@ variant "Material Light Red" {
     layer "theme"
 }
 
-variant "Material Dark Red" {
+variant "Not Material Dark Red" {
     appearance "dark"
     layer "red"
     layer "default-derived"
@@ -369,7 +394,7 @@ variant "Material Dark Red" {
     layer "theme"
 }
 
-variant "Material Light Green" {
+variant "Not Material Light Green" {
     appearance "light"
     layer "green"
     layer "default-derived"
@@ -377,7 +402,7 @@ variant "Material Light Green" {
     layer "theme"
 }
 
-variant "Material Dark Green" {
+variant "Not Material Dark Green" {
     appearance "dark"
     layer "green"
     layer "default-derived"
@@ -385,7 +410,7 @@ variant "Material Dark Green" {
     layer "theme"
 }
 
-variant "Material Light Yellow" {
+variant "Not Material Light Yellow" {
     appearance "light"
     layer "yellow"
     layer "default-derived"
@@ -393,7 +418,7 @@ variant "Material Light Yellow" {
     layer "theme"
 }
 
-variant "Material Dark Yellow" {
+variant "Not Material Dark Yellow" {
     appearance "dark"
     layer "yellow"
     layer "default-derived"
@@ -401,7 +426,7 @@ variant "Material Dark Yellow" {
     layer "theme"
 }
 
-variant "Material Light Blue" {
+variant "Not Material Light Blue" {
     appearance "light"
     layer "blue"
     layer "default-derived"
@@ -409,7 +434,7 @@ variant "Material Light Blue" {
     layer "theme"
 }
 
-variant "Material Dark Blue" {
+variant "Not Material Dark Blue" {
     appearance "dark"
     layer "blue"
     layer "default-derived"
@@ -417,7 +442,7 @@ variant "Material Dark Blue" {
     layer "theme"
 }
 
-variant "Material Light Magenta" {
+variant "Not Material Light Magenta" {
     appearance "light"
     layer "magenta"
     layer "default-derived"
@@ -425,7 +450,7 @@ variant "Material Light Magenta" {
     layer "theme"
 }
 
-variant "Material Dark Magenta" {
+variant "Not Material Dark Magenta" {
     appearance "dark"
     layer "magenta"
     layer "default-derived"
@@ -433,7 +458,7 @@ variant "Material Dark Magenta" {
     layer "theme"
 }
 
-variant "Material Light Cyan" {
+variant "Not Material Light Cyan" {
     appearance "light"
     layer "cyan"
     layer "default-derived"
@@ -441,7 +466,7 @@ variant "Material Light Cyan" {
     layer "theme"
 }
 
-variant "Material Dark Cyan" {
+variant "Not Material Dark Cyan" {
     appearance "dark"
     layer "cyan"
     layer "default-derived"
@@ -449,3 +474,19 @@ variant "Material Dark Cyan" {
     layer "theme"
 }
 
+// If customising, uncomment these two variants
+/-variant "Not Material Light Custom" {
+    appearance "light"
+    layer "custom"
+    layer "default-derived"
+    layer "light"
+    layer "theme"
+}
+
+/-variant "Not Material Dark Custom" {
+    appearance "dark"
+    layer "custom"
+    layer "default-derived"
+    layer "dark"
+    layer "theme"
+}

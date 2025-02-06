@@ -3,6 +3,12 @@
 zed-hct-theme-maker is, surprisingly, a tool to make Zed themes with the
 HCT color space.
 
+> **What's HCT?**
+> HCT stands for **hue, chroma and tone.**
+> - Hue is which color it is.
+> - Chroma is how saturated it is.
+> - Tone is how light/dark it is.
+
 ## Write your own themes
 First, [learn KDL](https://kdl.dev/). It'll take you, like, 5 minutes.
 
@@ -56,9 +62,8 @@ layer "light-tones" {
 
 layer "theme" {
   style {
-    // Note that the last token is applied first. So, fg is applied, 
-    // then primary. When a token is applied, already set variables
-    // won't be overriden.
+    // Tokens are applied in order, overriding eachother, like CSS
+    // classes. Properties set on the color override any tokens.
     editor.foreground apply="primary fg"
     editor.background apply="primary bg"
   }
@@ -71,8 +76,29 @@ variant "my theme dark" {
 }
 
 variant "my theme light" {
-  appearance "dark"
+  appearance "light"
   layer "light-tones"
   layer "theme"
 }
 ```
+
+Compile your theme with:
+
+```
+python3 -m zed_hct_theme_maker compile mytheme.kdl
+```
+
+Or, live-preview your theme:
+
+```
+python3 -m zed_hct_theme_maker experimental-patch-settings \
+    mytheme.kdl \
+    /path/to/settings.json \
+    "My Theme Variant"
+```
+
+## Example themes
+
+See `material.kdl` for a pastel-themed example with multiple variants
+that combine layers. To customise it, change the "custom" layer
+and uncomment the variants at the very bottom.
