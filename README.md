@@ -18,6 +18,9 @@ The below themes were all generated from the
 *Not Material Light Red opened on
 [the Revolution website](https://github.com/revolution-hacks/revolution)*
 
+> [!NOTE]
+> You can install this repository as an extension to get these themes.
+
 ## What's HCT?  
 HCT stands for **hue, chroma and tone.**
 - Hue is which color it is.
