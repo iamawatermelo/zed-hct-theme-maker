@@ -80,7 +80,7 @@ def compile_highlight(highlight: Highlight | Color, env: dict[str, Color], name:
         }
     else:
         return {
-            "background_color": color_to_hex(highlight.color, env, name),
+            "background_color": color_to_hex(highlight.background_color, env, name),
             "color": color_to_hex(highlight.color, env, name),
             "font_style": highlight.font_style,
             "font_weight": highlight.font_weight

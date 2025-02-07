@@ -392,12 +392,11 @@ layer "theme" {
         primary apply="on-primary-n10"
         preproc apply="on-primary-n10"
         emphasis {
-            color apply="on-primary-n20"
+            color apply="on-primary"
             font_style "italic"
         }
         emphasis.strong {
-            color apply="on-primary-n20"
-            font_style "italic"
+            color apply="on-primary"
             font_weight 700
         }
         predictive {

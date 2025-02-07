@@ -3,11 +3,19 @@
 zed-hct-theme-maker is, surprisingly, a tool to make Zed themes with the
 HCT color space.
 
-![The example material.kdl](docs/anyide.png)
-*Pictured: Not Material Light Green opened on
+![Not Material Dark Yellow opened on wakapi-anyide](docs/anyide.png)
+*Not Material Dark Yellow opened on
 [wakapi-anyide](https://github.com/iamawatermelo/wakapi-anyide)*
 
-> ## **What's HCT?**  
+![Not Material Dark Cyan opened on cuddly-dicts](docs/anyide.png)
+*Not Material Dark Cyan opened on
+[cuddly-dicts](https://github.com/iamawatermelo/cuddly-dicts)*
+
+![Not Material Light Red opened on the Revolution website](docs/anyide.png)
+*Not Material Light Red opened on
+[the Revolution website](https://github.com/revolution-hacks/revolution)*
+
+> ## What's HCT?  
 > HCT stands for **hue, chroma and tone.**
 > - Hue is which color it is.
 > - Chroma is how saturated it is.
@@ -17,14 +25,14 @@ HCT color space.
 First, [learn KDL](https://kdl.dev/). It'll take you, like, 5 minutes.
 
 Next, write your theme metadata:
-```
+```kdl
 version 1
 name "my theme"
 author "me :D"
 ```
 
 Then, you can write theme variants:
-```
+```kdl
 variant "my theme dark" {
   appearance "dark"
   
@@ -37,7 +45,7 @@ variant "my theme dark" {
 ```
 
 You can also use tokens, for reusability:
-```
+```kdl
 token "primary" h=0 c=90
 
 variant "my theme dark" {
@@ -51,7 +59,7 @@ variant "my theme dark" {
 ```
 
 Finally, you can also use layers for maximum composability.
-```
+```kdl
 token "primary" h=0 c=90
 
 layer "dark-tones" {
@@ -88,13 +96,13 @@ variant "my theme light" {
 
 Compile your theme with:
 
-```
+```sh
 python3 -m zed_hct_theme_maker compile mytheme.kdl
 ```
 
 Or, live-preview your theme:
 
-```
+```sh
 python3 -m zed_hct_theme_maker experimental-patch-settings \
     mytheme.kdl \
     /path/to/settings.json \
