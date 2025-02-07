@@ -3,6 +3,9 @@
 zed-hct-theme-maker is, surprisingly, a tool to make Zed themes with the
 HCT color space.
 
+The below themes were all generated from the
+**[same file.](material.kdl)**
+
 ![Not Material Dark Yellow opened on wakapi-anyide](docs/anyide.png)
 *Not Material Dark Yellow opened on
 [wakapi-anyide](https://github.com/iamawatermelo/wakapi-anyide)*
