@@ -7,11 +7,11 @@ HCT color space.
 *Not Material Dark Yellow opened on
 [wakapi-anyide](https://github.com/iamawatermelo/wakapi-anyide)*
 
-![Not Material Dark Cyan opened on cuddly-dicts](docs/anyide.png)
+![Not Material Dark Cyan opened on cuddly-dicts](docs/cuddly_dicts.png)
 *Not Material Dark Cyan opened on
 [cuddly-dicts](https://github.com/iamawatermelo/cuddly-dicts)*
 
-![Not Material Light Red opened on the Revolution website](docs/anyide.png)
+![Not Material Light Red opened on the Revolution website](docs/revolution.png)
 *Not Material Light Red opened on
 [the Revolution website](https://github.com/revolution-hacks/revolution)*
 
