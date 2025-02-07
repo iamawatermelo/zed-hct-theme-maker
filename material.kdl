@@ -5,7 +5,7 @@ name "zed-hct-theme-maker material demo"
 author "github.com/iamawatermelo"
 
 // How saturated semantic colors are.
-token "color-saturation" c=100
+token "color-saturation" c=70
 
 token "red" apply="color-saturation" h=20
 token "green" apply="color-saturation" h=150
