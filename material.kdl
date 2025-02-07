@@ -4,6 +4,7 @@ version 1
 name "zed-hct-theme-maker material demo"
 author "github.com/iamawatermelo"
 
+// How saturated semantic colors are.
 token "color-saturation" c=100
 
 token "red" apply="color-saturation" h=20
@@ -15,22 +16,24 @@ token "cyan" apply="color-saturation" h=190
 
 token "transparent" h=0 c=0 t=0 a=0.0
 
+// Customising? Change this layer.
+// Just make sure to uncomment the two nodes at the bottom.
 layer "custom" {
     // Change the "seed" color here, or the primary color of the entire
     // theme.
     token "seed" h=0
     
-    token "hc-primary" apply="seed" c=90
-    token "hc-secondary" apply="seed" c=80
+    token "hc-primary" apply="seed" c=80
+    token "hc-secondary" apply="seed" c=70
     
     // Change c (the chroma) to change how "saturated" panel elements are
     token "hc-neutral" apply="seed" c=6
     token "hc-neutral-variant" apply="seed" c=10
     
     // Change the tertiary color to a complementary color you like.
-    token "hc-tertiary" h=90 c=90
+    token "hc-tertiary" h=90 c=80
     
-    token "hc-error" h=150 c=100
+    token "hc-error" apply="red" c=100
 }
 
 layer "default-derived" {
@@ -44,7 +47,7 @@ layer "default-derived" {
     // Change the tertiary color to a complementary color you like.
     token "hc-tertiary" apply="seed-tertiary" c=80
     
-    token "hc-error" h=150 c=100
+    token "hc-error" apply="red" c=100
 }
 
 layer "red" {
@@ -117,10 +120,10 @@ layer "light" {
     token "on-error-container" apply="red" t=30
     
     // Surface colors
-    token "surface" apply="hc-neutral" t=98
+    token "surface" apply="hc-neutral" t=95
     token "surface-p10" apply="hc-neutral" t=88
     token "surface-p20" apply="hc-neutral" t=78
-    token "on-surface" apply="hc-neutral" t=10
+    token "on-surface" apply="hc-neutral" t=15
     token "on-surface-n10" apply="hc-neutral" t=20
     token "on-surface-n20" apply="hc-neutral" t=30
     token "on-surface-dim" apply="hc-neutral" t=50
@@ -167,9 +170,9 @@ layer "dark" {
     
     // Tertiary colors
     token "tertiary" apply="hc-tertiary" t=20
-    token "on-tertiary" apply="hc-tertiary" t=80
-    token "on-tertiary-n10" apply="hc-tertiary" t=70
-    token "on-tertiary-n20" apply="hc-tertiary" t=60
+    token "on-tertiary" apply="hc-tertiary" t=95
+    token "on-tertiary-n10" apply="hc-tertiary" t=90
+    token "on-tertiary-n20" apply="hc-tertiary" t=80
     token "tertiary-container" apply="hc-tertiary" t=30
     token "on-tertiary-container" apply="hc-tertiary" t=90
     
@@ -180,13 +183,13 @@ layer "dark" {
     token "on-error-container" apply="red" t=90
     
     // Surface colors
-    token "surface" apply="hc-neutral" t=6
+    token "surface" apply="hc-neutral" t=10
     token "surface-p10" apply="hc-neutral" t=16
     token "surface-p20" apply="hc-neutral" t=26
     token "on-surface" apply="hc-neutral" t=80
     token "on-surface-n10" apply="hc-neutral" t=70
     token "on-surface-n20" apply="hc-neutral" t=60
-    token "on-surface-dim" apply="hc-neutral" t=50
+    token "on-surface-dim" apply="hc-neutral" t=55
     token "on-surface-light" apply="hc-neutral" t=95
     token "surface-variant" apply="hc-neutral-variant" t=30
     token "on-surface-variant" apply="hc-neutral-variant" t=80
@@ -268,7 +271,7 @@ layer "theme" {
         // Editor stuff
         editor.foreground apply="on-surface"
         editor.background apply="surface"
-        editor.gutter.background apply="surface-container-low"
+        editor.gutter.background apply="surface-container"
         editor.subheader.background apply="surface-container-lowest"
         editor.highlighted_line.background apply="surface-variant"
         editor.active_line.background apply="surface-variant"
@@ -278,6 +281,12 @@ layer "theme" {
         editor.document_highlight.read_background apply="surface green"
         editor.document_highlight.write_background apply="surface"
         search.match_background apply="primary yellow"
+        editor.invisible apply="on-surface"
+        info.foreground apply="on-surface"
+        info.background apply="surface-container"
+        hint apply="on-surface"
+        hint.foreground apply="on-surface"
+        hint.background apply="surface-container"
         
         // Scrollbar stuff
         scrollbar.thumb.background apply="surface-p20" a=0.7
@@ -347,30 +356,58 @@ layer "theme" {
         variable apply="on-surface"
         variant apply="on-primary"
         attribute apply="on-primary magenta"
-        property apply="on-primary-n20"
+        property apply="on-primary"
         constant apply="on-primary magenta"
         type apply="on-tertiary-n10"
-        function apply="on-surface"
-        label apply="on-surface"
+        label apply="on-primary-n20"
         embedded apply="on-primary"
+        constructor apply="on-primary"
+        enum apply="on-primary-n20"
+        function apply="on-secondary"
+        hint {
+            color apply="on-surface blue"
+            font_weight 700
+        }
+        
+        // Markup languages
+        link_text apply="on-primary yellow"
+        link_uri apply="on-primary blue"
+        tag apply="on-secondary"
+        title {
+            color apply="on-primary"
+            font_weight 700
+        }
         
         // Operator and punctuation
         punctuation apply="on-primary"
-        punctuation.bracket apply="on-surface-n20"
+        punctuation.bracket apply="on-surface-n10"
         punctuation.delimiter apply="on-primary"
         punctuation.list_marker apply="on-primary"
         punctuation.special apply="on-primary"
         operator apply="on-surface"
         
         // Special stuff
-        keyword apply="on-primary-n20"
-        variable.special apply="on-primary-n20"
-        primary apply="on-primary-n20"          
-        preproc apply="on-primary-n20"
+        keyword apply="on-primary-n10"
+        variable.special apply="on-primary-n10"
+        primary apply="on-primary-n10"
+        preproc apply="on-primary-n10"
+        emphasis {
+            color apply="on-primary-n20"
+            font_style "italic"
+        }
+        emphasis.strong {
+            color apply="on-primary-n20"
+            font_style "italic"
+            font_weight 700
+        }
+        predictive {
+            color apply="on-surface-n10"
+            font_style "italic"
+        }
     }
     
     player {
-        cursor apply="primary"
+        cursor apply="on-surface"
         background apply="on-primary"
         selection apply="primary-container"
     }
