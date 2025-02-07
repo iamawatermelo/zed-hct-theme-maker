@@ -18,11 +18,11 @@ The below themes were all generated from the
 *Not Material Light Red opened on
 [the Revolution website](https://github.com/revolution-hacks/revolution)*
 
-> ## What's HCT?  
-> HCT stands for **hue, chroma and tone.**
-> - Hue is which color it is.
-> - Chroma is how saturated it is.
-> - Tone is how light/dark it is.
+## What's HCT?  
+HCT stands for **hue, chroma and tone.**
+- Hue is which color it is.
+- Chroma is how saturated it is.
+- Tone is how light/dark it is.
 
 ## Write your own themes
 First, [learn KDL](https://kdl.dev/). It'll take you, like, 5 minutes.
