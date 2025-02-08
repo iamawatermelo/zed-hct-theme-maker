@@ -120,9 +120,9 @@ layer "light" {
     token "on-error-container" apply="red" t=30
     
     // Surface colors
-    token "surface" apply="hc-neutral" t=95
-    token "surface-p10" apply="hc-neutral" t=88
-    token "surface-p20" apply="hc-neutral" t=78
+    token "surface" apply="hc-neutral" t=96
+    token "surface-p10" apply="hc-neutral" t=90
+    token "surface-p20" apply="hc-neutral" t=84
     token "on-surface" apply="hc-neutral" t=15
     token "on-surface-n10" apply="hc-neutral" t=20
     token "on-surface-n20" apply="hc-neutral" t=30
