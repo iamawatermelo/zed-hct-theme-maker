@@ -1,9 +1,12 @@
+from collections import deque
+import io
 from pathlib import Path
+import sys
 from typing import Any
 import typer
 from cuddly_dicts import kdl_source_to_dict
 
-from zed_hct_theme_maker.models import Color, Highlight, PlayerColor, Theme, Variant
+from zed_hct_theme_maker.models import Color, Highlight, Module, PlayerColor, Theme, Variant
 
 from coloraide import Color as Base
 from coloraide.spaces.hct import HCT
@@ -66,7 +69,7 @@ def color_to_hex(color: Color | None, env: dict[str, Color], name: str) -> str |
         list()
     )
     
-    return HCTColor('hct', (resolved.h, resolved.c, resolved.t), alpha=resolved.a or 1) \
+    return HCTColor('hct', (resolved.h, resolved.c, resolved.t), alpha=resolved.a if resolved.a is not None else 1.0) \
         .convert('srgb') \
         .to_string(hex=True)
 
@@ -179,6 +182,43 @@ def compile(
     with open(file) as fd:
         kdl = kdl_source_to_dict(fd.read())
         theme = Theme(**kdl)
+    
+    if theme.include is not None:
+        includes = deque()
+        modules = dict()
+        
+        if isinstance(theme.include, str):
+            includes.append(file.parent / theme.include)
+        else:
+            for include in theme.include:
+                includes.append(file.parent / include)
+        
+        while len(includes) > 0:
+            module_file = includes.popleft()
+            
+            if module := modules.get(module_file):
+                print(f"warning: {module_file} included again", file=sys.stderr)
+                continue
+            
+            with open(module_file) as fd:
+                kdl = kdl_source_to_dict(fd.read())
+                module = Module(**kdl)
+            
+            if isinstance(module.include, str):
+                includes.append(file.parent / module.include)
+            elif isinstance(module.include, list):
+                for include in theme.include:
+                    includes.append(file.parent / include)
+            
+            modules[module_file] = (module, module_file)
+        
+        resolved_modules = list(modules.values())
+        
+        print("resolved modules:", file=sys.stderr)
+        print(f"\t{file}", file=sys.stderr)
+        for (module, path) in resolved_modules:
+            print(f"\t\t{path}", file=sys.stderr)
+            theme.layer.update(module.layer)
     
     themes = [compile_variant(
         theme,

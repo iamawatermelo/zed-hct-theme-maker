@@ -1,12 +1,12 @@
-from typing import Literal, Optional
-from pydantic import BaseModel
+from typing import Annotated, Literal, Optional
+from pydantic import BaseModel, Field
 
 
 class Color(BaseModel):
     h: Optional[int] = None
     c: Optional[int] = None
     t: Optional[int] = None
-    a: Optional[float] = 1.0
+    a: Optional[float] = None
     apply: Optional[str] = None
 
 
@@ -40,10 +40,18 @@ class Layer(BaseModel):
     syntax: dict[str, Color | Highlight] = dict()
 
 
+class Module(BaseModel):
+    version: Literal[1]
+    include: Annotated[list[str] | str | None, Field(alias="@include")] = None
+    token: dict[str, Color] = dict()
+    layer: dict[str, Layer] = dict()
+
+
 class Theme(BaseModel):
     version: Literal[1]
     name: str
     author: str
-    variant: dict[str, Variant]
-    token: dict[str, Color]
-    layer: dict[str, Layer]
+    include: Annotated[list[str] | str | None, Field(alias="@include")] = None
+    variant: dict[str, Variant] = dict()
+    token: dict[str, Color] = dict()
+    layer: dict[str, Layer] = dict()
